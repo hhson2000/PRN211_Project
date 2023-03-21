@@ -1,0 +1,36 @@
+﻿@model ProjectPrn211.Models.Movie
+
+@{
+    Layout = "LayoutAdmin";
+}
+
+
+<div class="d-flex container-fluid justify-content-center">
+     <div class="w-75 mt-5">
+    <form method="post" action="@Url.Action("EditMovie", "Admin")">
+            <h1>Update movie</h1>
+            @Html.HiddenFor(model => model.MovieId)
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Year</span>
+                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Image</span>
+                @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Description</span>
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">GenreId</span>
+                @Html.EditorFor(model => model.GenreId, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <button type="submit" class="mt-2 btn btn-success">Submit</button>
+    </form>
+    </div>
+</div>

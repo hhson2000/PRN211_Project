@@ -1,0 +1,37 @@
+﻿@model ProjectPrn211.Models.Movie
+
+
+@{
+    Layout = "LayoutAdmin";
+}
+
+
+<div class="d-flex container-fluid justify-content-center">
+    <h1>Add new movie</h1>
+    <div class="w-75 mt-5">
+        <form method="post">
+            <div>
+                <label asp-for="Title"></label>
+                <input class="input-group mb-3" asp-for="Title" />
+            </div>
+            <div>
+                <label asp-for="Year"></label>
+                <input class="input-group mb-3" asp-for="Year" />
+            </div>
+            <div>
+                <label asp-for="Image"></label>
+                <input class="input-group mb-3" asp-for="Image" />
+            </div>
+            <div>
+                <label asp-for="Description"></label>
+                <input class="input-group mb-3" asp-for="Description" />
+            </div>
+            <div>
+                <label>Genre</label>
+                <select asp-for="GenreId" asp-items="@(new SelectList(ViewData["Genres"] as List<Genre>, "GenreId", "Description"))"></select>
+            </div>
+            <button type="submit" value="Add" class="mt-2 btn btn-success">Add</button>
+        </form>
+
+    </div>
+</div>

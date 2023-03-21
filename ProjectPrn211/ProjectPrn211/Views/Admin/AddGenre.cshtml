@@ -1,0 +1,22 @@
+﻿@model ProjectPrn211.Models.Genre
+
+
+@{
+    Layout = "LayoutAdmin";
+}
+
+
+<div class="d-flex container-fluid justify-content-center">
+    <h1>Add new movie</h1>
+    <div class="w-75 mt-5">
+          
+        <form method="post">
+            <div>
+                <label asp-for="Description"></label>
+                <input class="input-group mb-3" asp-for="Description" />
+            </div>
+            <button type="submit" value="Add" class="mt-2 btn btn-success">Add</button>
+        </form>
+
+    </div>
+</div>

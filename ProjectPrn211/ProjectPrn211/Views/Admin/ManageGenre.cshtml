@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ProjectPrn211.Models.Genre>
+@{
+    Layout = "LayoutAdmin";
+}
+
+
+<div class="d-flex container-fluid justify-content-center">
+    <div class="w-75 mt-5">
+        <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("AddGenre", "Admin")'">
+            Add New Genre
+        </button>
+        @if (Model != null)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">GenreId</th>
+                        <th scope="col">Description</th>
+                        <th class="text-center" scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.GenreId</th>
+                            <td>@item.Description</td>
+                            <td class="justify-content-center text-center">
+                                <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("DeleteGenre", "Admin", new { id = item.GenreId})'">
+                                    Delete
+                                </button>
+                                <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("EditGenre", "Admin", new { id = item.GenreId})'">
+                                    Edit
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
