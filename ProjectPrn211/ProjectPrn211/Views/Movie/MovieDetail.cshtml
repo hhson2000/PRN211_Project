@@ -1,0 +1,50 @@
+﻿@model ProjectPrn211.Models.Movie
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col d-flex">
+            <div class="w-25">
+                <div class="my-5">
+                    <div>
+                        <img src="@Model.Image"
+                             class="card-img-top"
+                             alt="Product Image" />
+                    </div>
+                </div>
+            </div>
+            <div class="w-75">
+                <div class="m-5">
+                    <div>
+                        <h1>@Model.Title</h1>
+                        <h3>@Model.Year</h3>
+                        <h4>Thể loại:@Model.Genre.Description</h4>
+
+                        @foreach (var rate in Model.Rates)
+                        {
+                            <p>Rating: @rate.NumericRating</p>
+                        }
+                        <p>@Model.Description</p>
+                    </div>
+                    <div class="d-flex flex-row justify-content-start">
+                        <span style="height: 35px;border-radius: 3px; align-items: center;" class="d-flex w-25 border-5 bg-primary justify-content-center text-center">
+                            <a style="text-decoration: none" class="text-center text-light" href="#">Review</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col w-100">
+            <h2>Bình luận</h2>
+            @foreach (var item in Model.Rates)
+            {
+                <div class="mb-2">
+                    <p>@item.Person.Fullname: @item.Comment</p>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

@@ -1,8 +1,54 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<ProjectPrn211.Models.Movie>
+
+@{
+    Layout = "_Layout";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="container-fluid d-flex" style="background-color: #eee">
+    <div class="w-25 py-5 justify-content-center">
+        <h3 class="text-center">Thể Loại</h3>
+        @foreach (var item in ViewBag.Genre)
+        {
+            <ul class="my-3 list-group list-group-light">
+                <li class="list-group-item px-3 border-0 text-center" aria-current="true">
+                    <a style="text-decoration:none" href="/Home/Filter?actionName=@item.Description">@item.Description</a>
+                </li>
+            </ul>
+        }
+    </div>
+    <div class="w-75 mx-3 py-5">
+        <h3>Danh sách phim</h3>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="my-2 col-md-12 col-lg-4 mb-4 mb-lg-0">
+                    <div class="card text-black">
+                        <img src="@item.Image"
+                         class="card-img-top"
+                         alt="Product Image" />
+                        <div class="card-body">
+                            <div class="text-center mt-1">
+                                <h4 class="card-title">@item.Title</h4>
+                                <h6 class="text-primary mb-1 pb-3">Year: @item.Year</h6>
+                            </div>
+
+                            <div class="text-center">
+                                @foreach (var rate in item.Rates)
+                                {
+                                    <p>Rating: @rate.NumericRating</p>
+                                }
+                            </div>
+                            <div class="d-flex flex-row justify-content-center">
+                                <span style="height: 35px;border-radius: 3px; align-items: center;" class="d-flex w-75 border-5 bg-primary justify-content-center text-center">
+                                    <a style="text-decoration: none" class="text-center text-light" href="Movie/MovieDetail/@item.MovieId">Review</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</section>

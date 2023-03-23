@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectPrn211.Models;
 using System.Diagnostics;
 
@@ -6,27 +7,43 @@ namespace ProjectPrn211.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly CenimaDBContext _db;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        public HomeController(CenimaDBContext db, IHttpContextAccessor httpContextAccessor)
         {
-            _logger = logger;
+            this._db = db;
         }
+
+     
 
         public IActionResult Index()
         {
-            return View();
+            var listGenre =_db.Genres.ToList();
+            var listMovie = _db.Movies.Include(l => l.Rates).Include(g => g.Genre).ToList();
+            ViewBag.Genre = listGenre;
+            return View(listMovie);
         }
 
-        public IActionResult Privacy()
+        public IActionResult Filter([FromQuery] string actionName)
         {
-            return View();
+            var listGenre = _db.Genres.ToList();
+            var listMovie = _db.Movies.Include(l => l.Rates).Include(g => g.Genre)
+                            .Where(n => n.Genre.Description == actionName).ToList();
+            ViewBag.Genre = listGenre;
+            return View("Index",listMovie);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpPost]
+        public IActionResult Search(string search)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var listGenre = _db.Genres.ToList();
+            var listMovie = _db.Movies.Include(l => l.Rates).Include(g => g.Genre)
+                            .Where(n => n.Title.Contains(search)).ToList();
+            ViewBag.Genre = listGenre;
+            return View("Index", listMovie);
         }
+
+
     }
 }

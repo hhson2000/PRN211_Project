@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ProjectPrn211.Models;
+using System.Text.Json;
 
 namespace ProjectPrn211.Controllers
 {
@@ -46,7 +47,7 @@ namespace ProjectPrn211.Controllers
                                 controller = "Home";
                                 break;
                         }
-                        HttpContext.Session.SetString("Email", email);
+                        HttpContext.Session.SetString("Email", JsonSerializer.Serialize(person));
                         HttpContext.Session.SetString("Password", password);
                         return RedirectToAction(action, controller);
                     }
@@ -75,6 +76,12 @@ namespace ProjectPrn211.Controllers
             ps.IsActive = true;
             _db.Persons.Add(ps);
             _db.SaveChanges();
+            return View("Login");
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
             return View("Login");
         }
     }
