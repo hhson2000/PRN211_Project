@@ -49,9 +49,17 @@
                         <label>Gender</label>
                         @Html.DropDownListFor(m => m.Gender, (IEnumerable<SelectListItem>)ViewBag.Genders, "-- Select Gender --", new { @class = "form-control" })
                     </div>
+                    @if (ViewBag.ErrorMsg != null)
+                    {
+                        <div>
+                            <p style="color: red">@ViewBag.ErrorMsg</p>
+                        </div>
+                    }
+
                     <div class="mt-2 text-center form-group">
                         <input type="submit" value="Register" class="btn btn-primary" />
                     </div>
+
                 }
             </div>
         </div>

@@ -1,5 +1,13 @@
-﻿@model ProjectPrn211.Models.Movie
-
+﻿@using System.Text.Json
+@model ProjectPrn211.Models.Movie
+@{
+    double sum = 0;
+    foreach (var rate in Model.Rates)
+    {
+        sum += @rate.NumericRating;
+    }
+    double avg = Model.Rates.Count() > 0 ? sum / @Model.Rates.Count() : 0;
+}
 <div class="container my-5">
     <div class="row">
         <div class="col d-flex">
@@ -18,33 +26,95 @@
                         <h1>@Model.Title</h1>
                         <h3>@Model.Year</h3>
                         <h4>Thể loại:@Model.Genre.Description</h4>
-
-                        @foreach (var rate in Model.Rates)
-                        {
-                            <p>Rating: @rate.NumericRating</p>
-                        }
+                        <p>Rating: @avg</p>
                         <p>@Model.Description</p>
                     </div>
-                    <div class="d-flex flex-row justify-content-start">
-                        <span style="height: 35px;border-radius: 3px; align-items: center;" class="d-flex w-25 border-5 bg-primary justify-content-center text-center">
-                            <a style="text-decoration: none" class="text-center text-light" href="#">Review</a>
-                        </span>
-                    </div>
+                    @if (Context.Session.GetString("Email") == null)
+                    {
+                        <div class="w-25 d-flex flex-row justify-content-start">
+                            <button type="button"
+                                class="btn btn-primary flex-fill me-1"
+                                data-mdb-ripple-color="dark"
+                                onclick="window.location.href='@Url.Action("Login","Authentication")'">
+                                Review
+                            </button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
-        
-    </div>
-    <div class="row">
-        <div class="col w-100">
-            <h2>Bình luận</h2>
-            @foreach (var item in Model.Rates)
-            {
-                <div class="mb-2">
-                    <p>@item.Person.Fullname: @item.Comment</p>
-                </div>
-            }
-        </div>
-    </div>
 
+    </div>
+    @if (Context.Session.GetString("Email") != null)
+    {
+        if(ViewBag.Comment != null)
+        {
+             <div class="row">
+            <div class="m-5">
+                <h3 style="margin-left:25%;">Chi tiết đánh giá</h3>
+                <div style="margin-left:25%;">
+                    <div class="my-2">
+                        <label>Rating:  </label>
+                        <input type="text" name="rating" value=@ViewBag.Rate readonly /><br>
+                    </div>
+                    <div class="my-2">
+                        <label>Comment </label><br>
+                        <textarea style="width: 80%" type="text" placeholder=@ViewBag.Comment readonly></textarea>
+                    </div>
+                </div>
+            </div>
+            </div>
+        }
+        else
+        {
+             <div class="row">
+            <div class="m-5">
+                <h3 style="margin-left:25%;">Chi tiết đánh giá</h3>
+                <form style="margin-left:25%;" method="post" asp-action="Review">
+                    <input type="hidden" name="MovieId" asp-for=MovieId />
+                    <div class="my-2">
+                        <label>Rating:  </label>
+                        <input type="text" name="rating" /><br>
+                    </div>
+                    <div class="my-2">
+                        <label>Comment </label><br>
+                        <textarea style="width: 80%" type="text" name="comment"></textarea>
+                    </div>
+                    <button class="btn btn-success" type="submit">Review</button>
+                </form>
+            </div>
+        </div>
+        }
+       
+    }
+
+
+    @if (Context.Session.GetString("Email") == null)
+    {
+        <div class="row">
+            <div class="col w-100">
+                <h2>Bình luận</h2>
+                @foreach (var item in Model.Rates)
+                {
+                    <div class="mb-2">
+                        <p>@item.Person.Fullname: @item.Comment</p>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col w-100">
+                <h2>Bình luận</h2>
+                @foreach (var item in Model.Rates)
+                {
+                    <div class="mb-2">
+                        <p>@item.Person.Fullname: @item.Comment</p>
+                    </div>
+                }
+            </div>
+        </div>
+    }
 </div>

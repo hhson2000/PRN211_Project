@@ -48,7 +48,6 @@ namespace ProjectPrn211.Controllers
                                 break;
                         }
                         HttpContext.Session.SetString("Email", JsonSerializer.Serialize(person));
-                        HttpContext.Session.SetString("Password", password);
                         return RedirectToAction(action, controller);
                     }
                 }
@@ -67,6 +66,15 @@ namespace ProjectPrn211.Controllers
         [HttpPost]
         public IActionResult Register(Person person)
         {
+            var genders = _db.Persons.Select(g => new { Gender = g.Gender }).Distinct().ToList();
+            string email = person.Email;
+            var user = _db.Persons.FirstOrDefault(x => x.Email.Equals(email));
+            if(user != null)
+            {
+                ViewBag.Genders = new SelectList(genders, "Gender", "Gender");
+                ViewBag.ErrorMsg = "Email đã tồn tại";
+                return View("Register");
+            }
             Person ps = new Person();
             ps.Fullname = person.Fullname;
             ps.Email = person.Email;

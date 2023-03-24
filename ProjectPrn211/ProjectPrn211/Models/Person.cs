@@ -14,10 +14,10 @@ namespace ProjectPrn211.Models
         public int PersonId { get; set; }
         public string? Fullname { get; set; }
         public string? Gender { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Email không để trống")]
         [StringLength(255)]
         public string? Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Passord không để trống")]
         [StringLength(255)]
         public string? Password { get; set; }
         public int? Type { get; set; }
